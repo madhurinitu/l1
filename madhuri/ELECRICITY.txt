@@ -1,0 +1,19 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>htmljs</title>
+        <script src="section_1_HTML_JS.js"></script>
+    </head>
+    <body>
+        <form>
+            <table>
+                <tr><td>Consumer No: </td><td><input type="number" maxlength="8" min="0" max="99999999" id="cno" name="cno" required/></td></tr>
+                <tr><td>Consumer Name: </td><td><input type="text" name="cname" id="cname" minlength="3" required style="text-transform:capitalize"/></td></tr>
+                <tr><td>Email Address: </td><td><input type="email" name="mail" id="mail" required/></td></tr>
+                <tr><td>Number Of Units: </td><td><input type="number" name="nou" id="nou" required/></td></tr>
+                <tr><td colspan="2"><button onclick="return calculateElectriciyCharges()">Calculate</button></td></tr>
+            </table>
+        </form>
+    </body>
+</html>
+ 

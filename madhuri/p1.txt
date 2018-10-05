@@ -1,0 +1,864 @@
+CREATE TABLE EMPLOYEE(id number(3),
+                      name varchar2(30),
+		      salary number(5,2),
+                      hiredate date);
+
+
+
+desc employee;
+
+
+
+
+CREATE table product(id number(3),
+                     name varchar2(30),
+                     price number(5,3),
+                     mfg_date date);
+desc product
+
+
+
+insert into EMPLOYEE values ( 101,
+'madhu',
+500.00,
+'19-sep-2018');
+
+
+
+select *from EMPLOYEE;
+
+
+
+insert into EMPLOYEE values(101,
+'nitu',
+205.23,
+'25-sep-2018');
+
+
+
+
+insert into EMPLOYEE values(&id,&name,&salary,&hiredate);
+select * from EMPLOYEE;
+
+
+
+
+
+insert into EMPLOYEE(id, salary) values(12,
+250.00);
+
+
+
+
+create table emp(
+id number(5),
+name varchar2(10),
+salary number(5,1),
+hiredate date );
+
+select *from emp;
+
+
+
+insert into emp select *from EMPLOYEE;
+
+
+
+
+
+
+
+
+
+alter table EMPLOYEE add  designation varchar2(10);
+
+
+
+
+
+alter table EMPLOYEE modify designation varchar2(30);
+
+
+truncate table emp;
+
+
+
+
+
+
+rename  EMPLOYEE to employee_details;
+
+
+
+
+
+
+alter table EMPLOYEE modify designation number;
+
+
+alter table EMPLOYEE drop column  designation ;
+
+
+drop table emp;
+
+
+drop table  employee_details;
+
+
+
+create table subjects(
+id number(3),
+maths number(5,2),
+science number(5,2),
+ social number(5,2)
+);
+alter table subjects modify maths number(5,2);
+
+alter table subjects modify science number(5,2);
+
+
+alter table subjects modify social number(5,2);
+
+
+
+
+insert into subjects values(11,78,89,91);
+insert into subjects values(12,88,96,69);
+insert into subjects values(13,79,68,79);
+insert into subjects values(14,99,86,77);
+
+
+
+update subjects set name='rashmika' where id=13;
+      
+
+
+update subjects set total=maths +science+social;
+
+alter table subjects add percentage number(5,2);
+
+
+update  subjects set percentage =total/3;
+alter table subjects add grade varchar2(10);
+
+
+delete from subjects where id=14;
+
+
+select id,total from subjects;
+
+select *from subjects where id =11;
+
+
+
+
+select *from subjects where id>11 and id<14;
+
+select *from subjects where id=12 or id=13;
+
+
+
+select  *from subjects where  id !=11 and id!=14;
+
+
+
+
+
+select *from subjects where id in(10,12,15);
+
+
+
+
+select *from subjects where id not in(10,12,15);
+
+
+
+select *from subjects where name like('r%a');
+
+select *from subjects where name like= any('%a_');
+
+
+
+
+
+save point
+=============
+
+
+
+insert into dept values(40,'react','hyderabad',102);
+savepoint a;
+insert into dept values (50,'accounts','mumbai',103);
+savepoint b;
+
+
+
+rollback to a;
+
+
+
+delete from dept where id=30;
+
+
+
+dcl
+====
+create user madhuri identified by Capgemini123;
+grant select on dept to nagaraju;
+revoke select on dept from madhuri;
+
+
+aggregate 
+==========
+
+select max(salary)from employee;
+
+
+select max(salary) as heighest_salary from employee;
+
+
+
+
+select id,max(sal) from employee;
+
+
+select count(id) from dept;
+ 
+
+select count(id) from employee; 
+
+
+select count(id),id from dept group by id;
+
+select count(*),id from dept group by id;
+
+
+
+
+
+
+
+
+
+
+create table dept(  
+  deptno number(2,0),  
+dname  varchar2(14),  
+loc varchar2(13),  
+constraint pk_dept primary key (deptno) 
+ );
+
+ 
+
+create table emp(  
+ empno    number(4,0),  
+ ename    varchar2(10),  
+ job      varchar2(9),  
+ hiredate date,  
+sal      number(7,2),  
+ deptno   number(2,0),  
+constraint pk_emp primary key (empno),  
+constraint fk_deptno foreign key (deptno) references dept (deptno)  
+);
+
+ 
+
+Department:
+
+-----------
+
+insert into DEPT (DEPTNO, DNAME, LOC)
+values(10, 'ACCOUNTING', 'NEW YORK');
+insert into dept  
+values(20, 'RESEARCH', 'DALLAS');
+insert into dept  
+values(30, 'SALES', 'CHICAGO');
+insert into dept  
+values(40, 'OPERATIONS', 'BOSTON');
+;
+ 
+
+ 
+
+Emp:
+
+----
+
+insert into emp  
+values(7839, 'KING', 'PRESIDENT',  
+to_date('17-11-1981','dd-mm-yyyy'),  
+5000, 10 );
+
+ 
+
+insert into emp  
+
+values(7698, 'BLAKE', 'MANAGER',   
+to_date('1-5-1981','dd-mm-yyyy'),  
+2850, 30 );
+insert into emp  
+values(7782, 'CLARK', 'MANAGER',  
+to_date('9-6-1981','dd-mm-yyyy'),  
+2450, 10);  
+
+
+ 
+
+ 
+
+insert into emp  
+values(7566, 'JONES', 'MANAGER',   
+to_date('2-4-1981','dd-mm-yyyy'),  
+2975, 20);
+
+ 
+
+ 
+
+insert into emp  
+values( 7788, 'SCOTT', 'ANALYST',   
+to_date('13-JUL-87','dd-mm-rr') - 85,  
+3000, 20);
+
+ 
+
+insert into emp  
+values(7902, 'FORD', 'ANALYST',   
+to_date('3-12-1981','dd-mm-yyyy'),  
+3000, 20 );
+
+ 
+
+ 
+
+insert into emp  
+values(7369, 'SMITH', 'CLERK', 
+to_date('17-12-1980','dd-mm-yyyy'),  
+800, 20 );
+
+ 
+
+insert into emp values(7499, 'ALLEN', 'SALESMAN',  
+to_date('20-2-1981','dd-mm-yyyy'),  
+1600, 30 );
+
+ 
+
+
+insert into emp values( 7521, 'WARD', 'SALESMAN',
+to_date('22-2-1981','dd-mm-yyyy'),  
+ 1250, 30  
+);
+
+ 
+
+insert into emp  values( 7654, 'MARTIN', 'SALESMAN',
+to_date('28-9-1981','dd-mm-yyyy'),  
+1250, 30  
+);
+
+ 
+
+insert into emp values(  7844, 'TURNER', 'SALESMAN', 
+to_date('8-9-1981','dd-mm-yyyy'),  
+1500, 30 );
+
+ 
+
+insert into emp  
+values( 7876, 'ADAMS', 'CLERK',
+to_date('13-JUL-87', 'dd-mm-rr') - 51,  
+1100, 20);
+
+ 
+
+insert into emp  
+values( 7900, 'JAMES', 'CLERK', 
+to_date('3-12-1981','dd-mm-yyyy'),  
+950, 30  
+);
+
+ 
+
+insert into emp  values(  
+7934, 'MILLER', 'CLERK', 
+to_date('23-1-1982','dd-mm-yyyy'),  
+1300, 10 );
+
+ 
+
+insert into emp  
+values(  
+7534, 'ROLLER', 'CLERK', 
+ to_date('24-9-85', 'dd-mm-rr'),  
+ 1300, 10  
+);
+
+
+select sum(sal) , deptno from emp group by deptno;
+
+
+
+
+
+select avg(sal) , deptno from emp group by deptno;
+
+select  sum(sal),deptno from emp group by deptno having  sum(sal)>5000;
+
+select count(*), deptno from emp having count(*)>2 group by deptno;
+
+
+select *from emp order by sal desc;
+
+
+equijoins
+=========
+ select *from emp e,dept d where e.deptno=d.deptno;
+
+
+select eid,ename,mid
+from empe1,empe2
+where e1.eid=e2.mid;
+
+
+SELECT MAX(SAL) FROM EMP WHERE SAL < ( SELECT MAX(SAL) FROM EMP);
+
+SELECT MAX(SAL) FROM EMP WHERE SAL(select max(sal)where<(SELECT MAX(SAL) FROM EMP));
+
+
+SELECT DNAME,LOC FROM DEPT  WHERE DEPTNO = (SELECT DEPTNO FROM EMP WHERE EMPNO=7934);
+
+
+
+
+
+
+SELECT MAX(SAL) FROM EMP WHERE SAL < (SELECT MAX(SAL) FROM EMP WHERE SAL < ( SELECT MAX(SAL) FROM EMP));
+
+
+
+===========================================================================================================================================================================================================
+								plsql
+
+
+
+
+
+
+declare
+name varchar2(30);
+begin
+dbms_output.put_line('hello world');
+end;
+/
+
+
+declare
+name varchar2(30);
+begin
+select ename into name  from emp where empno=7934;
+dbms_output.put_line('hello mr.'||name);
+end;
+/
+
+
+declare 
+name varchar2(30);
+esal number(9,2);
+id number(5);
+begin
+select ename,sal,empno into name,esal,id from emp where empno=7534;
+dbms_output.put_line(name||'-'||esal||'-'||id);
+end;
+/
+
+
+
+
+declare 
+name emp.ename%type;
+esal emp.sal%type;
+id emp.empno%type;
+begin
+select ename,sal,empno into name,esal,id from emp where empno=7534;
+dbms_output.put_line(name||'-'||esal||'-'||id);
+end;
+/
+
+
+
+IF THEN
+ if condition then 
+statements;
+END IF;
+
+
+declare  
+num number(5):=10;
+begin
+if num!= 0 then
+dbms_output.put_line('+ve number');
+end if;
+end;
+/
+
+declare  
+num number(5):=10;
+begin
+if mod(num,2)= 0 then
+dbms_output.put_line('even number');
+else
+dbms_output.put_line('odd');
+end if;
+end;
+/
+
+declare 
+num number (5):=0;
+begin
+if num>0 then
+dbms_output.put_line('+ve intezer');
+elsif num =0 then
+dbms_output.put_line('number is zero');
+else 
+dbms_output.put_line('-ve intezer');
+end if;
+end;
+/
+
+
+
+declare 
+mark number (5):=90;
+begin
+if marks>=90 then
+dbms_output.put_line('grade A');
+elsif marks between(80,90) then
+dbms_output.put_line('grade B');
+elsif marks between(70,80) then
+dbms_output.put_line('grade c');
+elsif  marks between (70,60) then
+dbms_output.put_line('grade d');
+elsif marks<60 then
+dbms_output.put_line('not qualified');
+else 
+dbms_output.put_line('fail');
+end if;
+end;
+/
+
+
+declare 
+marks number (5):=89;
+begin
+case 
+when marks >90 then
+dbms_output.put_line('grade A');
+when marks >=80 and marks <90 then 
+dbms_output.put_line('grade b');
+when marks >=70 and marks <80 then 
+dbms_output.put_line('grade b');
+when marks >=60 and marks <70 then 
+dbms_output.put_line('grade b');
+end case;
+end;
+/
+
+
+declare 
+months varchar2(50) :=&months;
+begin
+case months
+when 'jan' then
+dbms_output.put_line('31');
+when 'feb' then
+dbms_output.put_line('28');
+when 'mar' then
+dbms_output.put_line('31');
+when 'apr' then
+dbms_output.put_line('30');
+when 'may' then
+dbms_output.put_line('31');
+when 'jun' then
+dbms_output.put_line('30');
+when 'jul' then
+dbms_output.put_line('31');
+when 'aug' then
+dbms_output.put_line('31');
+when 'sep' then
+dbms_output.put_line('30');
+when 'oct' then
+dbms_output.put_line('30');
+when 'nov' then
+dbms_output.put_line('30');
+when 'dec' then
+dbms_output.put_line('31');
+
+end case;
+end;
+/
+
+
+
+loop
+====
+ declare 
+num number(5):=1;
+begin
+loop
+dbms_output.put_line(num);
+num:=num+1;
+exit;
+end loop;
+end;
+/
+
+
+
+
+
+
+
+
+for:
+====
+
+begin
+for num  in 0..10 loop
+dbms_output.put_line(num);
+end loop;
+end;
+/
+
+
+
+
+declare
+num number(5):=10;
+begin
+for i in  10..1 loop
+dbms_output.put_line(i);
+--i:=i-1;
+end loop;
+end;
+/
+
+
+
+
+
+procedure
+========
+ create or replace procedure print_hello is
+msg varchar2(30):='hello';
+begin
+dbms_output.put_line(msg);
+end;
+/
+
+
+
+
+
+create or replace procedure print_emp(id in number,name out varchar2)is
+begin 
+select ename into name from emp where empno=id;
+dbms_output.put_line('hello mr'||name);
+end;
+/
+
+exec: 
+declare 
+empname emp.ename%type;
+begin
+print_emp(7534,empname);
+dbms_output.put_line('hello'||empname);
+end;
+/
+
+
+
+function
+=========
+create or replace function print_msg return varchar2 is
+begin
+return 'hello';
+end;
+/
+
+
+
+declare 
+msg varchar2(30);
+begin
+msg:=print_msg;
+dbms_output.put_line(msg);
+end;
+/
+
+
+
+create or replace function print_sal (id in number,esal out number) return number is
+begin
+
+select sal into esal from emp where empno=id;
+return esal;
+end;
+/
+
+
+declare 
+sal number;
+begin
+sal:=print_sal(7534,sal);
+dbms_output.put_line(sal);
+end;
+/
+
+create or replace procedure print_voter(age in number)is
+begin
+if age>18 then
+dbms_output.put_line('allow to apply');
+else 
+dbms_output.put_line('try when you turn 18');
+end if;
+end;
+/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+create or replace procedure check_age(age in number) is
+invalid_age_exception EXCEPTION;
+begin 
+if age<18 then
+raise invalid_age_exception;
+end if ;
+exception
+when invalid_age_exception then
+dbms_output.put_line('try after'||(18-age)||'year');
+end;
+/
+
+
+
+
+EXEC CHECK_AGE(25);
+)
+
+
+
+CREATE OR REPLACE PROCEDURE PRINT_SAL IS
+ESAL NUMBER(9,2);
+BEGIN
+ SELECT SAL INTO ESAL FROM EMP WHERE EMPNO=1234;
+DBMS_OUTPUT.PUT_LINE('SALARY:'||ESAL);
+END;
+/
+
+
+
+
+
+EXEC PRINT_EMP_SAL;
+BEGIN PRINT_EMP_SAL;
+END;
+
+
+
+
+
+
+
+
+CREATE OR REPLACE PROCEDURE PRINT_EMP_SAL IS
+ESAL NUMBER(5);
+BEGIN
+SELECT SAL INTO ESAL FROM EMP WHERE EMPNO=1234;
+DBMS_OUTPUT.PUT_LINE('SALARY:'||ESAL);
+EXCEPTION 
+WHEN NO_DATA_FOUND THEN
+DBMS_OUTPUT.PUT_LINE('NO DATA FOR'||1234);
+END;
+/
+
+
+
+
+trigger
+========
+
+
+CREATE OR REPLACE PROCEDURE ADD_COL_PROC IS 
+ execute immediate 'ALTER TABLE EMP ADD AGE NUMBER(50)';
+END;
+/
+
+
+create table salary_history(
+id number(10),
+name  varchar2(10),
+pre_sal number(9,2),
+lat_sal number(9,2)
+);
+
+
+
+create or replace trigger salary_trigger
+before update of sal on emp
+for each row 
+begin
+insert into salary_history values(:old.empno,:old.ename,:old.sal,:new.sal);  
+end;
+/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+update emp set sal=5000 where empno=7534;
+
+
+
+
+
+select *from salary_history;
+
+
+===================================================================================================
+  					HTML5
+
+
+
+
+
+
+
+
+
+
+

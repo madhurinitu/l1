@@ -1,0 +1,24 @@
+<!--webpage to accept electricity consumer information --> 
+
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>Electricity Consumer Form</title>
+        <script src="electricity_.js"></script>
+    </head>
+    <body>
+        <form  style="border: double  black";>
+		<h2 align="center" > Electricity Consumer Form</h2>
+		
+            <table align="center"  >
+			
+                <tr><td><b>Consumer No: </td><td><input type="number" maxlength="8" min="0" max="99999999" id="cno" name="cno" required/><span id="cerror"></span></td></tr>
+                <tr><td><b>Consumer Name: </td><td><input type="text" name="cname" id="cname" minlength="3" required style="text-transform:capitalize"/><span id="cnerror"></span></td></tr>
+                <tr><td><b>Email Address: </td><td><input type="email" name="mail" id="mail" required/><span id="merror"></span></td></tr>
+                <tr><td><b>Number Of Units: </td><td><input type="number" name="no" id="no" required/></td><span id="nerror"></span></tr>
+                <tr><td colspan="2"><button onclick="return calculateElectriciyCharges()">Calculate Electricity Charges and Display</button></td></tr>
+            </table>
+        </form>
+    </body>
+</html>
+ 
