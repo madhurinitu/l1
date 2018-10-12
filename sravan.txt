@@ -1,0 +1,94 @@
+Abstract :
+ 
+abstract class Bike{  
+      abstract void run(); 
+      void brake() {
+           System.out.println("Testing the braking");
+      }
+      static void speed(){
+           System.out.println("Testing the speed");
+      }
+    }  
+    class Abstract1 extends Bike{  
+    void run(){
+         System.out.println("running safely");
+         }  
+    public static void main(String args[]){  
+    Bike obj = new Abstract1();  
+    obj.run();  obj.brake();
+    Abstract1.speed();
+    }  
+    }  
+======================================================================================
+
+
+
+import java.time.LocalDate;
+import java.time.Month;
+import java.time.Period;
+ 
+/**
+* This program will demonstrate on how to calculate difference between two dates
+*/
+ 
+public class CalculatingPeriod {
+ 
+                public static void main(String[] args) {
+                               
+                                LocalDate start = LocalDate.of(1947,Month.AUGUST,15);
+                                LocalDate end = LocalDate.now();
+                               
+                                Period period = start.until(end);
+                               
+                                System.out.println("Days:"+ period.getDays());
+                                System.out.println("Months:"+period.getMonths());
+                                System.out.println("Years:"+ period.getYears());
+                }
+}
+ 
+ 
+ 
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+ 
+public class ZonedDateTimeDemo {
+ 
+    public static void main(String[] args) {
+        
+         ZonedDateTime currentTime = ZonedDateTime.now();
+         ZonedDateTime currentTimeInParis = ZonedDateTime.now(ZoneId.of("Europe/Paris"));
+         ZonedDateTime currentTimeInNewYork = currentTime.withZoneSameInstant(ZoneId.of("America/New_York"));
+         System.out.println("India:"+ currentTime);
+         System.out.println("Paris:"+ currentTimeInParis);
+         System.out.println("New York:"+ currentTimeInNewYork);
+        
+        
+    }
+}
+============================================================================================
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
+ 
+/**
+* This program demonstrates on how to format date and time
+*
+*/
+public class FormattingDate {
+ 
+                public static void main(String[] args) {
+                                /*           DateTimeFormatter is used to configure the date time format
+                                                DateTimeFormatter can also be obtained by using ofPattern()
+                                                which you can use for custom date and time format
+                                */
+                                DateTimeFormatter formatter =
+                                                                DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL);
+                               
+                                LocalDate currentDate = LocalDate.now();
+                                System.out.println(currentDate);
+                                //Almost every class in java.time package provides
+                                //format() method to format the date or time
+                                System.out.println(currentDate.format(formatter));
+                               
+                }
+}
