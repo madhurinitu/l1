@@ -1,107 +1,279 @@
-Abstract :
+Subject: Properties Example
  
-abstract class Bike{  
-      abstract void run(); 
-      void brake() {
-           System.out.println("Testing the braking");
-      }
-      static void speed(){
-           System.out.println("Testing the speed");
-      }
-    }  
-    class Abstract1 extends Bike{  
-    void run(){
-         System.out.println("running safely");
-         }  
-    public static void main(String args[]){  
-    Bike obj = new Abstract1();  
-    obj.run();  obj.brake();
-    Abstract1.speed();
-    }  
-    }  
-======================================================================================
-
-
-
-import java.time.LocalDate;
-import java.time.Month;
-import java.time.Period;
+package com.capgemini.lesson15;
+ 
+import java.util.Properties;
+import java.util.Enumeration;
+import java.io.InputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.FileOutputStream;
+import java.io.FileInputStream;
  
 /**
-* This program will demonstrate on how to calculate difference between two dates
-*/
+ * -----------------------------------------------------------------------------
+ * Used to provide an example of how to get/set Properties and load/save
+ * property files.
+ * -----------------------------------------------------------------------------
+ */
+public class DatasourcePropertyFiles {
  
-public class CalculatingPeriod {
+    private static Properties createDefaultProperties() {
  
-                public static void main(String[] args) {
-                               
-                                LocalDate start = LocalDate.of(1947,Month.AUGUST,15);
-                                LocalDate end = LocalDate.now();
-                               
-                                Period period = start.until(end);
-                               
-                                System.out.println("Days:"+ period.getDays());
-                                System.out.println("Months:"+period.getMonths());
-                                System.out.println("Years:"+ period.getYears());
-                }
-}
+         Properties tempProp = new Properties();
+         /* Database connection parameter properties are set */
+         tempProp.setProperty("url",
+                 "jdbc:oracle:thin:@192.168.12.16:1521:oracle8i");
+         tempProp.setProperty("driver", "oracle.jdbc.driver.OracleDriver");
+         tempProp.setProperty("username", "trg1");
+         tempProp.setProperty("password", "tiger");
+         return tempProp;
+    }
  
+    private static void printProperties(Properties p, String s) {
+         System.out.println();
+      System.out.println("========================================");
+         System.out.println(s);
+      System.out.println("========================================");
+         System.out.println("+---------------------------------------+");
+         System.out.println("| Print Application Properties          |");
+         System.out.println("+---------------------------------------+");
+         p.list(System.out);
+         System.out.println();
+    }
  
+    private static void saveProperties(Properties p, String fileName) {
+         OutputStream propsFile;
  
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
+         try {
+             propsFile = new FileOutputStream(fileName);
+             p.store(propsFile, "Properties File to the Test Application");
+             propsFile.close();
+         } catch (IOException ioe) {
+             System.out.println("I/O Exception.");
+             ioe.printStackTrace();
+             System.exit(0);
+         }
  
-public class ZonedDateTimeDemo {
+    }
+ 
+    private static Properties loadProperties(String fileName) {
+ 
+         InputStream propsFile;
+         Properties tempProp = new Properties();
+ 
+         try {
+             propsFile = new FileInputStream(fileName);
+             tempProp.load(propsFile);
+             propsFile.close();
+         } catch (IOException ioe) {
+             System.out.println("I/O Exception.");
+             ioe.printStackTrace();
+             System.exit(0);
+         }
+         return tempProp;
+    }
+ 
+    private static Properties alterProperties(Properties p) {
+ 
+         Properties newProps = new Properties();
+         Enumeration enProps = p.propertyNames();
+         String key = "";
+ 
+         while (enProps.hasMoreElements()) {
+ 
+             key = (String) enProps.nextElement();
+ 
+             /* If we want to alter the username property 
+             can be set to new username and also for all 
+             the other properties*/
+ 
+             if (key.equals("username")) {
+                 newProps.setProperty(key, "scott");
+ 
+             } else {
+                 newProps.setProperty(key, p.getProperty(key));
+             }
+ 
+         }
+         return newProps;
+    }
+ 
+    /**
+    * Sole entry point to the class and application.
+    * @param args Array of String arguments.
+    */
  
     public static void main(String[] args) {
-        
-         ZonedDateTime currentTime = ZonedDateTime.now();
-         ZonedDateTime currentTimeInParis = ZonedDateTime.now(ZoneId.of("Europe/Paris"));
-         ZonedDateTime currentTimeInNewYork = currentTime.withZoneSameInstant(ZoneId.of("America/New_York"));
-         System.out.println("India:"+ currentTime);
-         System.out.println("Paris:"+ currentTimeInParis);
-         System.out.println("New York:"+ currentTimeInNewYork);
-        
-        
+ 
+         final String PROPFILE = "MyApplication.properties";
+         Properties myProp;
+         Properties myNewProp;
+ 
+         myProp = createDefaultProperties();
+         printProperties(myProp, "Newly Created (Default) Properties");
+         saveProperties(myProp, PROPFILE);
+         myNewProp = loadProperties(PROPFILE);
+         printProperties(myNewProp, "Loaded Properties");
+         myNewProp = alterProperties(myProp);
+         printProperties(myNewProp, "After Altering Properties");
+         saveProperties(myNewProp, PROPFILE);
+         Properties myNewProp1 = loadProperties(PROPFILE);
+         Enumeration enProps = myNewProp1.propertyNames();
+         String key = "";//local key variable
+         String param[]; //String array to read properties.
+         param = new String[4];
+         int i = 0;
+         while (enProps.hasMoreElements()) {
+             key = (String) enProps.nextElement();
+             System.out.println(key);
+             param[i] = (String) myNewProp1.getProperty(key);
+             System.out.println("  " + key + "  ->  "
+                      + myNewProp1.getProperty(key));
+             i++;
+         }
+ 
     }
 }
-============================================================================================
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
  
-/**
-* This program demonstrates on how to format date and time
-*
+/*
+ 
+ OUTPUT:
+ 
+ Newly Created (Default) Properties
+ ========================================
+ +---------------------------------------+
+ | Print Application Properties          |
+ +---------------------------------------+
+ -- listing properties --
+ url=jdbc:oracle:thin:@192.168.12.16:1521:...
+ password=tiger
+ driver=oracle.jdbc.driver.OracleDriver
+ username=trg1
+ ========================================
+ Loaded Properties
+ ========================================
+ +---------------------------------------+
+ | Print Application Properties          |
+ +---------------------------------------+
+ -- listing properties --
+ password=tiger
+ url=jdbc:oracle:thin:@192.168.12.16:1521:...
+ driver=oracle.jdbc.driver.OracleDriver
+ username=trg1
+ 
+ ========================================
+ After Altering Properties
+ ========================================
+ +---------------------------------------+
+ | Print Application Properties          |
+ +---------------------------------------+
+ -- listing properties --
+ url=jdbc:oracle:thin:@192.168.12.16:1521:...
+ password=tiger
+ driver=oracle.jdbc.driver.OracleDriver
+ username=scott
+ 
+ 
+ password  ->  tiger
+ url  ->  jdbc:oracle:thin:@192.168.12.16:1521:oracle8i
+ driver  ->  oracle.jdbc.driver.OracleDriver
+ username  ->  scott
+ */
+*******************************************************************************************
+Subject: File IO
+ 
+class ReadKeys {
+    public static void main(String args[]) {
+         StringBuffer sb = new StringBuffer();
+         char c;
+         System.out.println("Enter a String:");
+         try {
+             while ((c = (char) System.in.read()) != '\n') {
+                 sb.append(c);
+             }
+         } catch (Exception e) {
+         }
+ 
+         String s = new String(sb);
+         System.out.println("You entered : " + s);
+    }
+}
+**********************************************************************************************************
+package com.capgemini.lesson13;
+ 
+/*           Copy a File.
+Command syntax: java CopyFile <from-file> <to-file>
 */
-public class FormattingDate {
+ 
+import java.io.*;
+ 
+class CopyFile {
+ 
+                FileInputStream fromFile;
+                FileOutputStream toFile;
+ 
+                public void init(String arg1, String arg2) {
+                                //Assign the files
+                                try {
+                                                fromFile = new FileInputStream(arg1);
+                                                toFile = new FileOutputStream(arg2);
+                                } catch (FileNotFoundException fnfe) {
+                                                System.out.println("Exception: " + fnfe);
+                                                return;
+                                }  catch (ArrayIndexOutOfBoundsException aioe) {
+                                                System.out.println("Exception: " + aioe);
+                                                return;
+                                }
+ 
+                }
+ 
+                public void copyContents() {
+ 
+                                // copy bytes
+                                try {
+                                                int i = fromFile.read();
+                                                while (i != -1) { //check the end of file
+                                                                toFile.write(i);
+                                                                i = fromFile.read();
+                                                }
+                                } catch (IOException ioe) {
+                                                System.out.println("Exception: " + ioe);
+                                                return;
+                                }
+                }
+ 
+                public void closeFiles() {
+ 
+                                //close the files
+                                try {
+                                                fromFile.close();
+                                                toFile.close();
+ 
+                                } catch (IOException ioe) {
+                                                System.out.println("Exception: " + ioe);
+                                                return;
+                                }
+                }
  
                 public static void main(String[] args) {
-                                /*           DateTimeFormatter is used to configure the date time format
-                                                DateTimeFormatter can also be obtained by using ofPattern()
-                                                which you can use for custom date and time format
-                                */
-                                DateTimeFormatter formatter =
-                                                                DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL);
-                               
-                                LocalDate currentDate = LocalDate.now();
-                                System.out.println(currentDate);
-                                //Almost every class in java.time package provides
-                                //format() method to format the date or time
-                                System.out.println(currentDate.format(formatter));
-                               
+ 
+                                CopyFile c1 = new CopyFile();
+                                c1.init(args[0], args[1]);
+                                c1.copyContents();
+                                c1.closeFiles();
                 }
 }
-
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
+*********************************************************************************
+Subject: Re: ENUM
+ 
 package com.cg.corejava;
 import java.util.Scanner;
 enum Gender{M,F,m,f;}
 public class MyClass3 {
  
 public static void main(String[] args) {
-
+// TODO Auto-generated method stub
 Scanner sc = new Scanner(System.in); 
 for (Gender printGender : Gender.values())
 System.out.println("The valid gender values are: "+printGender);
@@ -140,7 +312,15 @@ System.out.println("Person Details:");
         System.out.println("Gender: " + Gender.valueOf(k.toString())); /* Here i cannot get resolve the input . output is fine but I need in an an order. */
 }
 }
+******************************************************************************************************************************************************************************
 
+
+
+
+
+
+LAB 4
+ 
 package com.cg.corejava.lab_04_solution_4_1;
  
 public class Person {
@@ -295,140 +475,4 @@ public class Account {
                 }
                
  
-}
------------------------------------------------------------------------------------------------------------------------------------------------
-import java.time.LocalDate;
-import java.time.Month;
-import java.time.Period;
- 
-/**
-* This program will demonstrate on how to calculate difference between two dates
-*/
- 
-public class CalculatingPeriod {
- 
-                public static void main(String[] args) {
-                               
-                                LocalDate start = LocalDate.of(1947,Month.AUGUST,15);
-                                LocalDate end = LocalDate.now();
-                               
-                                Period period = start.until(end);
-                               
-                                System.out.println("Days:"+ period.getDays());
-                                System.out.println("Months:"+period.getMonths());
-                                System.out.println("Years:"+ period.getYears());
-                }
-}
- 
- 
- 
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
- 
-public class ZonedDateTimeDemo {
- 
-    public static void main(String[] args) {
-        
-         ZonedDateTime currentTime = ZonedDateTime.now();
-         ZonedDateTime currentTimeInParis = ZonedDateTime.now(ZoneId.of("Europe/Paris"));
-         ZonedDateTime currentTimeInNewYork = currentTime.withZoneSameInstant(ZoneId.of("America/New_York"));
-         System.out.println("India:"+ currentTime);
-         System.out.println("Paris:"+ currentTimeInParis);
-         System.out.println("New York:"+ currentTimeInNewYork);
-        
-        ***************************************************************************************************************************************************
-package com.cg.corejava;
-
-import java.util.Scanner;
-
-enum Gender{M,F,m,f;}
-
-public class MyClass3 {
-
- 
-
-public static void main(String[] args) {
-
-// TODO Auto-generated method stub
-
-Scanner sc = new Scanner(System.in); 
-
-for (Gender printGender : Gender.values())
-
-System.out.println("The valid gender values are: "+printGender);
-
- 
-
-System.out.println("\n\n\nCommand Line Inputs of Persons");
-
-System.out.println("First Name: ");
-
-String fname = sc.nextLine();     
-
-Character k;
-
-System.out.println("Last Name: ");
-
-String lname = sc.nextLine(); 
-
-boolean flag = true;      
-
-//while(true)
-
-//try
-
-{
-
-do{
-
-System.out.print ("Gender: ");
-
-k = sc.next().charAt(0);
-
-//System.out.println("Gender: " + Gender.valueOf(sc.next()));  
-
- 
-
- if(k!='M') {
-
- System.out.println("Not a valid input, please enter again"); }
-
- else
-
-    flag = false;
-
-} while(flag);
-
-}
-
-//System.out.println("Person Details:");
-
-//catch (IllegalArgumentException InvalidGender)
-
-//{
-
-//System.out.println("Error: " + InvalidGender);
-
-//}      
-
-//finally{
-
-System.out.println("Person Details:");
-
-        System.out.println("---------------");
-
-        System.out.println("First Name: "+fname); 
-
-        System.out.println("Last Name: "+lname);
-
-        System.out.println("Gender: " + Gender.valueOf(k.toString())); /* Here i cannot get resolve the input . output is fine but I need in an an order. */
-
-}
-
-}
-
- 
-
- 
-    }
 }

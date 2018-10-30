@@ -1,0 +1,23 @@
+
+***********************************Enquiry Details Table*************************************
+
+
+
+create table enquiry(enqryId Number Primary Key, firstName Varchar2(20),lastName Varchar2(20),contactNo Number(10),doamin Varchar2(20),city varchar2(20));
+
+
+
+
+
+**********************************Sequence Script****************************************
+
+
+
+
+
+create sequence enquiries 
+minvalue 1001
+maxvalue 9999
+start with 1001
+increment by 1
+nocache;
