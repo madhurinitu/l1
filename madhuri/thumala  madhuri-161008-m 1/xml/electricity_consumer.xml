@@ -1,8 +1,0 @@
-consumer xmls= "http://www.capgemini.com" 
-xmls:xsi="http://www.w3.org/2001/xmlschema-instance"
-xsi:schemalocation="http://www.capgemini.com consumer.xsd">
-<consumerno>1006</consumerno>
-<consumername>mahesh B</consumername>
-<email>bmahesh@yahoo.com<?email>
-<unitsconsumed>720</unitsconsumed>
-</consumer>
